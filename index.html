@@ -166,9 +166,15 @@
   .tok-tx{ color:var(--text); }
   .cursor{
     display:inline-block; width:2px; height:1.1em; background:var(--blue);
-    vertical-align:text-bottom; animation:blink 0.9s step-end infinite;
+    vertical-align:text-bottom; animation:blink 0.9s step-end infinite, glow 1.8s ease-in-out infinite;
+    box-shadow:0 0 6px var(--blue), 0 0 12px rgba(93,169,233,0.6);
+    border-radius:1px;
   }
   @keyframes blink{ 50%{ opacity:0; } }
+  @keyframes glow{
+    0%,100%{ box-shadow:0 0 6px var(--blue), 0 0 12px rgba(93,169,233,0.6); }
+    50%{ box-shadow:0 0 10px var(--blue), 0 0 22px rgba(93,169,233,0.85); }
+  }
 
   /* ---------- SECTIONS ---------- */
   section{ padding:110px 0; position:relative; z-index:1; }
@@ -262,9 +268,26 @@
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
   }
+
+  /* ---------- CURSOR GLOW ---------- */
+  .cursor-glow{
+    position:fixed; top:0; left:0;
+    width:420px; height:420px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(93,169,233,0.07), rgba(93,169,233,0.02) 45%, transparent 70%);
+    pointer-events:none;
+    z-index:5;
+    transform:translate(-50%, -50%);
+    will-change:transform;
+    opacity:0;
+    transition:opacity 0.4s ease;
+  }
+  .cursor-glow.active{ opacity:1; }
 </style>
 </head>
 <body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <nav id="nav">
   <div class="wrap">
@@ -293,8 +316,7 @@
 
     <div class="editor">
       <div class="editor-tabs">
-        <div class="editor-tab active"><span class="editor-dot"></span>CombatSystem.lua</div>
-        <div class="editor-tab"><span class="editor-dot"></span>Inventory.lua</div>
+        <div class="editor-tab active"><span class="editor-dot"></span>SilentDev.lua</div>
       </div>
       <div class="editor-body" id="editorBody"></div>
     </div>
@@ -312,42 +334,52 @@
     <div class="projects-grid">
 
       <div class="card reveal">
-        <div class="card-file"><span class="dot" style="background:var(--teal);"></span>CombatFramework.lua</div>
+        <div class="card-file"><span class="dot" style="background:var(--teal);"></span>KeyboardMerge.lua</div>
         <div class="card-body">
-          <h3>Hitbox Combat Framework</h3>
-          <p>Modular melee combat with combo chaining, raycast hit detection, and full server-side validation to stop client exploits.</p>
-          <div class="tags"><span class="tag">Raycasting</span><span class="tag">RemoteEvents</span><span class="tag">Anti-exploit</span></div>
-          <a href="#" class="card-link">View writeup <span class="arrow">→</span></a>
+          <h3>Keycap Merge</h3>
+          <p>A modular made keycap merging game for practice, where you merge to get all types of keycaps to put on your keyboard.</p>
+          <div class="tags"><span class="tag">Packet</span><span class="tag">DataService</span><span class="tag">OOP</span></div>
+          <a href="https://streamable.com/wv06ol" target="_blank" rel="noopener" class="card-link">Watch demo <span class="arrow">→</span></a>
         </div>
       </div>
 
       <div class="card reveal">
-        <div class="card-file"><span class="dot" style="background:var(--amber);"></span>InventorySystem.lua</div>
+        <div class="card-file"><span class="dot" style="background:var(--amber);"></span>TowerDefense.lua</div>
         <div class="card-body">
-          <h3>Data-Driven Inventory</h3>
-          <p>Stackable inventory &amp; equipment system backed by ProfileService, with drag-and-drop UI and session-locked saving.</p>
-          <div class="tags"><span class="tag">ProfileService</span><span class="tag">DataStore</span><span class="tag">UI/UX</span></div>
-          <a href="#" class="card-link">View writeup <span class="arrow">→</span></a>
+          <h3>A Tower Defense System</h3>
+          <p>Coming soon.</p>
+          <div class="tags"><span class="tag">OOP</span><span class="tag">DataserviceTyped</span><span class="tag">State Management</span></div>
+          <span class="card-link" style="opacity:0.5; cursor:default;">Coming soon</span>
         </div>
       </div>
 
       <div class="card reveal">
-        <div class="card-file"><span class="dot" style="background:var(--blue);"></span>NPCStateMachine.lua</div>
+        <div class="card-file"><span class="dot" style="background:var(--blue);"></span>GuessMy.lua</div>
         <div class="card-body">
-          <h3>Enemy AI State Machine</h3>
-          <p>Finite state machine driving patrol, chase, attack, and flee behavior, with pathfinding and dynamic aggro ranges.</p>
-          <div class="tags"><span class="tag">PathfindingService</span><span class="tag">FSM</span><span class="tag">OOP</span></div>
-          <a href="#" class="card-link">View writeup <span class="arrow">→</span></a>
+          <h3>Guess My ____ System</h3>
+          <p>A Guess My ____ System, where players take turn removing tiles and make guesses at what there opponents board is.</p>
+          <div class="tags"><span class="tag">OOP</span><span class="tag">State Management</span></div>
+          <a href="https://streamable.com/4w1vhg" target="_blank" rel="noopener" class="card-link">Watch demo <span class="arrow">→</span></a>
         </div>
       </div>
 
       <div class="card reveal">
-        <div class="card-file"><span class="dot" style="background:var(--teal);"></span>UIToolkit.lua</div>
+        <div class="card-file"><span class="dot" style="background:var(--teal);"></span>FishingGame.lua</div>
         <div class="card-body">
-          <h3>TweenUI Toolkit</h3>
-          <p>Reusable animation library wrapping TweenService for menu transitions, HUD reveals, and notification banners.</p>
-          <div class="tags"><span class="tag">TweenService</span><span class="tag">Module</span><span class="tag">Reusable</span></div>
-          <a href="#" class="card-link">View writeup <span class="arrow">→</span></a>
+          <h3>A Simple Fishing Game</h3>
+          <p>A fishing simulator that was developed for fun, includes egg hatching, upgrades, fishing and more.</p>
+          <div class="tags"><span class="tag">Data Saving</span><span class="tag">Progression</span><span class="tag">Simulator</span></div>
+          <a href="https://streamable.com/hjcpn7" target="_blank" rel="noopener" class="card-link">Watch demo <span class="arrow">→</span></a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-file"><span class="dot" style="background:var(--amber);"></span>CarBuilding.lua</div>
+        <div class="card-body">
+          <h3>Car Building Game For Brainrot</h3>
+          <p>A game where you buy parts, drive your car and gets brainrots and repeat.</p>
+          <div class="tags"><span class="tag">Building</span><span class="tag">State Management</span><span class="tag">Data Saving</span></div>
+          <a href="https://streamable.com/fg5ysl" target="_blank" rel="noopener" class="card-link">Watch demo <span class="arrow">→</span></a>
         </div>
       </div>
 
@@ -364,7 +396,7 @@
     <div class="skills-grid reveal">
       <div class="skill-col">
         <h4>Core</h4>
-        <ul><li>Luau</li><li>OOP Modules</li><li>RemoteEvents / Functions</li><li>DataStoreService</li></ul>
+        <ul><li>Luau</li><li>OOP Modules</li><li>Packet / Remote Events</li><li>DataStoreService</li></ul>
       </div>
       <div class="skill-col">
         <h4>Systems</h4>
@@ -388,12 +420,11 @@
       <div class="reveal">
         <div class="eyebrow" style="color:var(--blue);">ABOUT</div>
         <h2 style="font-size:1.7rem; font-weight:600; margin-bottom:16px;">A few things about me</h2>
-        <p>I've been scripting on Roblox for years, moving from small script kiddie projects to shipping production systems on games with active player bases.</p>
-        <p>I care about code that survives contact with real players — server-authoritative logic, clean module boundaries, and systems other developers can actually extend.</p>
+        <p>I've been scripting in Luau for years, building personal projects that lean into progression systems, simulation mechanics, and NPC behavior. I can build combat systems too when a project calls for it, but it's not where I gravitate by default.</p>
+        <p>I care about code that holds up under real gameplay — server-authoritative logic, clean module boundaries, and backend/frontend architecture that's easy for other developers to extend.</p>
       </div>
       <div class="stat-block reveal">
         <div class="stat"><div class="num">4+</div><div class="label">years scripting in Luau</div></div>
-        <div class="stat"><div class="num">12</div><div class="label">systems shipped to live games</div></div>
         <div class="stat"><div class="num">100%</div><div class="label">server-validated, exploit-resistant logic</div></div>
       </div>
     </div>
@@ -421,6 +452,28 @@
 <footer>// built with Luau &amp; late nights</footer>
 
 <script>
+  // Cursor-following glow (real mouse pointers only, always on across the page)
+  const glow = document.getElementById('cursorGlow');
+  const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (hasHover) {
+    let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+    let curX = targetX, curY = targetY;
+    document.addEventListener('mousemove', (e) => {
+      targetX = e.clientX; targetY = e.clientY;
+      glow.classList.add('active');
+    });
+    document.addEventListener('mouseleave', () => glow.classList.remove('active'));
+    function loop(){
+      curX += (targetX - curX) * 0.15;
+      curY += (targetY - curY) * 0.15;
+      glow.style.transform = `translate(${curX}px, ${curY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(loop);
+    }
+    loop();
+  }
+</script>
+
+<script>
   // Nav scroll state
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
@@ -436,45 +489,29 @@
 
   // Typewriter code editor
   const snippets = [
-`local CombatFramework = {}
-CombatFramework.__index = CombatFramework
+`local SilentDev = {}
+SilentDev.__index = SilentDev
 
-function CombatFramework.new(character)
-    local self = setmetatable({}, CombatFramework)
-    self.character = character
-    self.combo = 0
-    return self
+function SilentDev.New()
+	local self = setmetatable({} :: SilentDev, SilentDev)
+	
+	return self
 end
 
-function CombatFramework:RegisterHit(target)
-    -- server validates every hit before applying damage
-    if self:IsValidHit(target) then
-        self.combo += 1
-        target.Humanoid:TakeDamage(self:GetComboDamage())
-    end
+function SilentDev._Init(self: SilentDev)
+	print("SilentDev Initialized")
 end
 
-return CombatFramework`,
-`local Inventory = {}
-Inventory.__index = Inventory
-
-function Inventory.new(player, profile)
-    local self = setmetatable({}, Inventory)
-    self.player = player
-    self.data = profile.Data.Inventory
-    return self
+function SilentDev.Type(self: SilentDev)
+	print("SilentDev is typing")
 end
 
-function Inventory:AddItem(itemId, amount)
-    self.data[itemId] = (self.data[itemId] or 0) + amount
-    self:Sync()
-end
-
-return Inventory`
+export type SilentDev = typeof(SilentDev) & {}
+return SilentDev :: SilentDev`
   ];
 
-  const kwList = ["local","function","return","if","then","end","self","and","or","not"];
-  const fnHint = ["new","setmetatable","RegisterHit","IsValidHit","GetComboDamage","TakeDamage","AddItem","Sync"];
+  const kwList = ["local","function","return","if","then","end","self","and","or","not","export","type","typeof"];
+  const fnHint = ["New","setmetatable","_Init","Type"];
 
   function highlight(line) {
     let escaped = line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
